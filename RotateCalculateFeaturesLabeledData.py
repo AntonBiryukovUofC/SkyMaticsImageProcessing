@@ -14,8 +14,8 @@ from skimage.feature import greycomatrix, greycoprops
 from imfractal import *
 
 from MiscFunctionsSkymatics import *
-class_name = 'WhiteSpots'
-base = '/home/geoanton/SkyMaticsLearning/FarmLabeledForTraining'
+class_name = 'Roads'
+base = '/home/geoanton/SkyMaticsLearning/DataForClassifiers'
 parent_dir = '%s/%s/' % (base,class_name)
 new_folder = base + '/%sEnriched/' % class_name
 

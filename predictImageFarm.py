@@ -19,25 +19,26 @@ from imfractal import *
 from MiscFunctionsSkymatics import *
 
     
-parent_dir = './images_farm/'
+parent_dir = './images_all_NoFrame/'
 list_im = glob.glob(parent_dir + '*.png')
-list_im = list_im[::3]
 
-
+n_images = 800
+ind = np.random.choice(range(0,len(list_im)),n_images)
+list_im = [list_im[x] for x in ind]
 # Set up fractal functions:
 ins = MFS()
 
 ins.setDef(1,10,3)
 # For GLCM
-pixs = [2,4,8,16]
+pixs = [4,8,16]
 angles = [0, np.pi/4, np.pi/2, 3*np.pi/4]
 # for Gabor filters:
-frqs = (0.1,0.5,1)
+frqs = [0.5]
 kernels = GetKernels(frqs)
 
 
 
-reread_Hists=False
+reread_Hists=True
 if reread_Hists:
     with open('kmeansadlee.pkl', 'rb') as fid:
         k_means = cPickle.load(fid)
@@ -45,7 +46,7 @@ if reread_Hists:
     # Two features from the GLCM
     GLCMMatrix =  np.zeros((len(list_im),2*len(pixs)*len(angles)))
     FDMatrix= np.zeros((len(list_im),10))
-    GaborFeats = np.zeros((len(list_im),len(frqs)*2*3))
+    GaborFeats = np.zeros((len(list_im),len(kernels)*2))
     i=0
     for image_file in list_im:
         image = PIL.Image.open(image_file)
@@ -77,7 +78,7 @@ else:
         
         
 size = 65536.0
-const = 0.2
+const = 0.12
 # Reject black images (up to 25%)
 inds = np.where(HistsMatrix[:,0]/size < const)[0]
 HistsMatrix = HistsMatrix[inds,:].squeeze()
@@ -88,8 +89,8 @@ list_im = np.array(list_im)[inds]
 X = np.hstack((HistsMatrix,GLCMMatrix[inds,:].squeeze(),GaborFeats[inds,:].squeeze(),FDMatrix[inds,:].squeeze()))
 #HistsMatrix = StandardScaler().fit_transform(HistsMatrix)
 X= StandardScaler().fit_transform(X)
-n_clusters = 2
-k_means_hist = cluster.KMeans(n_clusters=n_clusters, n_init=20)
+n_clusters = 5
+k_means_hist = cluster.KMeans(n_clusters=n_clusters, n_init=10)
 #k_means_hist.fit(HistsMatrix)
 k_means_hist.fit(X)
 labels = k_means_hist.labels_

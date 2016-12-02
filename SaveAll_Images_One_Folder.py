@@ -17,7 +17,7 @@ import fnmatch
 import os
 from shutil import copyfile
 
-parent_dir = './images_half/'
+parent_dir = '/home/geoanton/SkyMaticsLearning/canolaBrown/21/'
 matches = []
 for root, dirnames, filenames in os.walk(parent_dir):
     for filename in fnmatch.filter(filenames, '*.png'):

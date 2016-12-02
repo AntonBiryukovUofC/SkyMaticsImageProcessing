@@ -47,7 +47,7 @@ def plot_img_and_hist(img, axes, bins=256):
 
     return ax_img, ax_hist, ax_cdf
 
-parent_dir = './images_farm/'
+parent_dir = './images_Marked/'
 list_im = glob.glob(parent_dir + '*.png')
 image_file = list_im[2000]
 image = PIL.Image.open(image_file)
