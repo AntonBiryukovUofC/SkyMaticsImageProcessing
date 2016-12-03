@@ -35,9 +35,9 @@ for i in range(len(class_List)):
     GLCMMatrix = npzfeats['GLCMMatrix']
     FDMatrix = npzfeats['FDMatrix']
     GaborFeats =  npzfeats['GaborFeats']
-   # X = np.hstack((HistsMatrix,GLCMMatrix[:,:].squeeze(),GaborFeats[:,:].squeeze(),
+    X = np.hstack((HistsMatrix,GLCMMatrix[:,:].squeeze(),GaborFeats[:,:].squeeze()))
     #               FDMatrix[:,:].squeeze()))
-    X= np.hstack((HistsMatrix,GLCMMatrix[:,:].squeeze()))
+   # X= np.hstack((HistsMatrix,GLCMMatrix[:,:].squeeze()))
     Y = np.ones(X.shape[0])*i
     if (i==0):
         X_all=X
@@ -64,8 +64,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.33)
 
 # Set the parameters by cross-validation
 tuned_parameters = [{'kernel': ['rbf'], 'gamma': [100,10,1,1e-2,1e-3, 1e-4],
-                     'C': [1, 10, 100, 1000]},
-                    {'kernel': ['linear'], 'C': [1, 10, 100, 1000]}]
+                     'C': [0.1,1,5, 10,50, 100,500, 1000,5000]},
+                    ]
 
 scores = ['accuracy']
 
